@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "message": "OK",
+  "code": 200,
+  "data": {
+    "origin": [
+      {
+        "serviceCode": "2022-DLA01582",
+        "groupCode": "1",
+        "groupTypeCode": "ORIGEN",
+        "groupType": "COLECTA",
+        "entity": "ALMACEN SONY",
+        "entityAddress": "AV SALAVERRY",
+        "entityDepartment": "LIMA",
+        "entityProvince": "LIMA",
+        "entityDistrict": "LIMA",
+        "ordersNumber": 1,
+        "lpnNumber": 0,
+        "sequence": null,
+        "status": "P",
+        "latitude": 0,
+        "longitude": 0
+      }
+    ],
+    "destination": [
+      {
+        "serviceCode": "2022-DLA01582",
+        "groupCode": "2",
+        "groupTypeCode": "DESTINO",
+        "groupType": "ENTREGA",
+        "entity": "CTD LIMA",
+        "entityAddress": "LOTES 1,2 Y 3 FUNDO PEDREROS, PARCELA RUSTICA, LURIGANCHO",
+        "entityDepartment": "LIMA",
+        "entityProvince": "LIMA",
+        "entityDistrict": "LURIGANCHO",
+        "ordersNumber": 1,
+        "lpnNumber": 0,
+        "sequence": null,
+        "status": "P",
+        "latitude": 0,
+        "longitude": 0
+      }
+    ]
+  }
+}

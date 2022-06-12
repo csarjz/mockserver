@@ -1,0 +1,40 @@
+{
+    "success": true,
+    "message": "OK",
+    "code": 200,
+    "data": [
+        {
+            "serviceCode": "2015-DL903615",
+            "licensePlate": "WER545",
+            "serviceDate": "11-02-2022",
+            "coverage": "",
+            "serviceStatusCode": "1",
+            "serviceStatus": "Pendiente",
+            "provider": "Andes Xpress",
+            "driver": "César",
+            "sequenceUseFlag": "Local"
+        },
+        {
+            "serviceCode": "2015-DL903615",
+            "licensePlate": "WER545",
+            "serviceDate": "11-02-2022",
+            "coverage": "",
+            "serviceStatusCode": "2",
+            "serviceStatus": "En curso...",
+            "provider": "Andes Xpress",
+            "driver": "César",
+            "sequenceUseFlag": "Local"
+        },
+        {
+            "serviceCode": "2015-DL903615",
+            "licensePlate": "WER545",
+            "serviceDate": "11-02-2022",
+            "coverage": "",
+            "serviceStatusCode": "3",
+            "serviceStatus": "Finalizado",
+            "provider": "Andes Xpress",
+            "driver": "César",
+            "sequenceUseFlag": "Local"
+        }
+    ]
+}

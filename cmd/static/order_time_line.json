@@ -1,0 +1,14 @@
+{
+    "success": true,
+    "message": "OK",
+    "code": 200,
+    "data": [
+        {
+            "templateCode": "132456",
+            "eventOrder": "fesfd",
+            "eventCode": "fdf45",
+            "event": "342",
+            "validationType": "1"
+        }
+    ]
+}

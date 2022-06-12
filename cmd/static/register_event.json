@@ -1,0 +1,50 @@
+{
+  "serviceCode": "string",
+  "accountCode": "string",
+  "documentType": "string",
+  "d4WInternalNumber": "string",
+  "eventCode": "string",
+  "eventDate": "string",
+  "paymentConfirmationFlag": "string",
+  "latitude": 0,
+  "longitude": 0,
+  "userCode": "string",
+  "imeiCode": "string",
+  "pickupPackagesQuantity": 0,
+  "deliveryPackagesQuantity": 0,
+  "newLpnOrderFlag": "string",
+  "flagLpnOrderNotValidated": "string",
+  "readValue": "string",
+  "listFormularioRequest": [
+    {
+      "objectCode": "string",
+      "objectValue": "string"
+    }
+  ],
+  "listLpnRequest": [
+    {
+      "lpnCode": "string"
+    }
+  ],
+  "listArticleRequest": [
+    {
+      "articleCode": "string",
+      "quantity": "string"
+    }
+  ],
+  "listCheckListOrderRequest": [
+    {
+      "templateCode": "string",
+      "templateSequence": "string",
+      "result": "string"
+    }
+  ],
+  "listCheckListArticleRequest": [
+    {
+      "templateCode": "string",
+      "articleCode": "string",
+      "templateSequence": "string",
+      "result": "string"
+    }
+  ]
+}

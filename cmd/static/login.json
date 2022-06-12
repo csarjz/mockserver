@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "message": "OK",
+    "code": 200,
+    "data": {
+        "token": {
+            "expiresIn": "1h",
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUFJPVkVFRE9SIFNPTEVSQSIsInRpbWVJbmFjdGl2aXR5U2Vzc2lvbiI6MTAsInRpbWVFbmRTZXNzaW9uIjo0ODAsInVzZXJuYW1lIjoiUFNPTEVSQSIsImlhdCI6MTY1NDExMzc2OCwiZXhwIjoxNjU0MTE3MzY4fQ.okMZjV2Yt90cfop1hnSdL9uIVwXlD7KFijWnJh8HAj4"
+        },
+        "user": {
+            "name": "César",
+            "timeInactivitySession": 10,
+            "timeEndSession": 480
+        }
+    }
+}

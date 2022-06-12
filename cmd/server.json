@@ -1,0 +1,43 @@
+{
+  "port": 5000,
+  "baseUrl": "/api/v1/",
+  "routes": [
+    {
+      "path": "login",
+      "method": "POST",
+      "responseFile": "static/login.json",
+      "delay": 80
+    },
+    {
+      "path": "onboarding",
+      "method": "GET",
+      "responseFile": "static/onboarding.json",
+      "delay": 80
+    },
+    {
+      "path": "route",
+      "method": "GET",
+      "responseFile": "static/route.json",
+      "delay": 80
+    },
+    {
+      "path": "place",
+      "responseFile": "static/route_place.json",
+      "delay": 80
+    },
+    {
+      "path": "order",
+      "responseFile": "static/place_order.json",
+      "delay": 80
+    },
+    {
+      "path": "timeline",
+      "responseFile": "static/order_time_line.json"
+    },
+    {
+      "path": "order/event",
+      "method": "POST",
+      "responseFile": "static/register_event.json"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "success": true,
+  "message": "OK",
+  "code": 200,
+  "data": [
+    {
+      "order": 1,
+      "label1": "¡Ofrece la mejor experiencia a nuestros clientes finales!",
+      "label2": "Nuestros horarios de atencion",
+      "label3": "<div class='center'>Horario normal &nbsp;&nbsp; 8 am - 8 pm</div><div class='center'>Horario Cyber &nbsp;&nbsp;&nbsp;&nbsp; 8 am - 9 pm</div>",
+      "label4": "",
+      "image": "https://2vb7j048t3rt461f0o4i5i5f-wpengine.netdna-ssl.com/wp-content/uploads/2017/10/clock-icon.png"
+    },
+    {
+      "order": 2,
+      "label1": "Recueda cuales son tus implemento de bioseguridad",
+      "label2": "",
+      "label3": "<ul><li>Mascarilla</li><li>Protector facial</li><li>Guantes de tela</li><li>Alcohol en gel</li><li>Alcohol en spray(botella de 1 litro)</li><li>Banco para colocar los productos al realizar la entrega</li></ul>",
+      "label4": "",
+      "image": "https://media.istockphoto.com/vectors/delivery-woman-holding-a-cardboard-package-vector-cartoon-character-vector-id1390172609?k=20&m=1390172609&s=612x612&w=0&h=Y2t7izYnm0wPgg859oqfAtbVBtQLvRuCmFcKwo_V5Sw="
+    },
+    {
+      "order": 3,
+      "label1": "Cumple con el protocolo de entrega!",
+      "label2": "",
+      "label3": "<ul><li><p>Sé amable con el cliente, una buena impresión hace maravillas.</p></li><li><p>Evita solicitar al cliente cosas tales como agua, propinas, servicios higiénicos, etc…</p></li><li><p>El pedido puede ser recepcionado por otra persona siempre que el cliente lo autorice previa comunicación, asegúrate de obtener evidencia fotográfica y comentar en la app para dejar constancia.</p></li></ul>",
+      "label4": "",
+      "image": "https://media.istockphoto.com/vectors/storehouse-worker-with-handtruck-semi-flat-rgb-color-vector-vector-id1255228831?k=20&m=1255228831&s=170667a&w=0&h=IZfatR_ppAf749jObVHiRoV7TQkCFpWHCez7z_qJKVE="
+    },
+    {
+      "order": 3,
+      "label1": "Sobre cambio de dirección\nde entrega",
+      "label2": "",
+      "label3": "<p>Si al realizar la llamada previa al momento de la entrega,  un cliente solicita cambiar la dirección de entrega deberás informar que no está permitido por lo que se reprogramará y el producto se entregará otro día.</p><p>El cliente debe cambiar de dirección de entrega al siguiente correo:<br/><a href=\"mailto:atencion@test.com\">atencion@test.com</a></p>",
+      "label4": "",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhwdueB5naFe3UOg-XZhAgYGDVD8MM5Bj01iliTbbyvQfDx6PeIzcZsEANVmwH7oP2Wf0&usqp=CAU"
+    }
+  ]
+}
