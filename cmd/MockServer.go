@@ -46,21 +46,25 @@ func initializeServerRoutes(serverConfig entity.ServerConfig, app *fiber.App) {
 		case "POST":
 			api.Post(route.Path, func(c *fiber.Ctx) error {
 				delay(route.Delay)
+				httpStatus(route.HttpStatus, c)
 				return processResponse(route.ResponseFile, c)
 			})
 		case "PUT":
 			api.Put(route.Path, func(c *fiber.Ctx) error {
 				delay(route.Delay)
+				httpStatus(route.HttpStatus, c)
 				return processResponse(route.ResponseFile, c)
 			})
 		case "DELETE":
 			api.Delete(route.Path, func(c *fiber.Ctx) error {
 				delay(route.Delay)
+				httpStatus(route.HttpStatus, c)
 				return processResponse(route.ResponseFile, c)
 			})
 		default:
 			api.Get(route.Path, func(c *fiber.Ctx) error {
 				delay(route.Delay)
+				httpStatus(route.HttpStatus, c)
 				return processResponse(route.ResponseFile, c)
 			})
 		}
@@ -82,5 +86,11 @@ func processResponse(filePath string, c *fiber.Ctx) error {
 func delay(delay uint32) {
 	if delay > 0 {
 		time.Sleep(time.Duration(delay) * time.Millisecond)
+	}
+}
+
+func httpStatus(status uint32, c *fiber.Ctx) {
+	if status > 0 {
+		c.Status(int(status))
 	}
 }

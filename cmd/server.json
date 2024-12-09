@@ -12,6 +12,7 @@
       "path": "onboarding",
       "method": "GET",
       "responseFile": "static/onboarding.json",
+      "httpStatus": 401,
       "delay": 80
     },
     {
