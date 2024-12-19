@@ -4,7 +4,10 @@ go 1.21.0
 
 toolchain go1.22.6
 
-require github.com/gin-gonic/gin v1.10.0
+require (
+	github.com/fsnotify/fsnotify v1.8.0
+	github.com/gin-gonic/gin v1.10.0
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect

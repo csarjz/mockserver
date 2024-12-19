@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/csarjz/mockserver/cmd/entity"
+	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +27,7 @@ func main() {
 
 	startServer(serverConfig)
 
-	select {}
+	observeFileChanges(serverConfigFileName)
 }
 
 func decodeServerConfigFile(fileName string) (*entity.ServerConfig, error) {
@@ -126,4 +127,66 @@ func processResponse(httpStatus uint32, responseFilePath string, c *gin.Context)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: "JSON File Not Found"})
 	}
+}
+
+func observeFileChanges(serverConfigFileName string)  {
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+
+	err = watcher.Add(serverConfigFileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var lastEventTime = time.Now()
+
+	go func() {
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok || event.Has(fsnotify.Chmod) {
+					continue
+				}
+
+				var now = time.Now()
+				if now.Sub(lastEventTime) < 200*time.Millisecond {
+					continue
+				}
+
+				log.Println("Server config file modified, reloading...")
+
+				serverConfig, err := decodeServerConfigFile(serverConfigFileName)
+				if err != nil {
+					log.Println("Error reloading config:", err)
+					continue
+				}
+
+				err = server.Close()
+				if err != nil {
+					log.Println("Error reloading config:", err)
+					continue
+				}
+
+				if event.Has(fsnotify.Remove) {
+					err = watcher.Add(serverConfigFileName)
+					if err != nil {
+						log.Fatal(err)
+					}
+				}
+
+				lastEventTime = now
+				startServer(serverConfig)
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Println("error:", err)
+			}
+		}
+	}()
+
+	<-make(chan struct{})
 }
