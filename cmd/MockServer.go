@@ -2,85 +2,108 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/csarjz/mockserver/cmd/entity"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"io/ioutil"
+	"errors"
+	"io"
 	"log"
+	"net/http"
+	"os"
 	"strconv"
 	"time"
+
+	"github.com/csarjz/mockserver/cmd/entity"
+	"github.com/gin-gonic/gin"
 )
 
+var server *http.Server
+
 func main() {
-	var app = fiber.New()
 
-	serverConfigFile, err := ioutil.ReadFile("server.json")
+	var serverConfigFileName = "server.json"
+	var serverConfig, err = decodeServerConfigFile(serverConfigFileName)
 	if err != nil {
-		log.Fatal("server.json file not found")
+		log.Fatal(err)
 	}
 
-	var serverConfig = entity.ServerConfig{}
-	err = json.Unmarshal(serverConfigFile, &serverConfig)
-	if err != nil {
-		log.Fatal("malformed app.json")
-	}
+	startServer(serverConfig)
 
-	app.Use(logger.New())
-	app.Use(recover.New())
-	initializeServerRoutes(serverConfig, app)
-
-	log.Fatal(app.Listen(":" + strconv.Itoa(int(serverConfig.Port))))
+	select {}
 }
 
-func initializeServerRoutes(serverConfig entity.ServerConfig, app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Welcome to Mock Server By github.com/csarjz")
+func decodeServerConfigFile(fileName string) (*entity.ServerConfig, error) {
+	var serverConfigFile, err = os.Open(fileName)
+	if err != nil {
+		return nil, err
+	}
+	defer serverConfigFile.Close()
+
+	var serverConfig = entity.ServerConfig{}
+	decoder := json.NewDecoder(serverConfigFile)
+	err = decoder.Decode(&serverConfig)
+	if err != nil {
+		return nil, errors.New("malformed " + fileName)
+	}
+
+	return &serverConfig, nil
+}
+
+func startServer(serverConfig *entity.ServerConfig) {
+	gin.SetMode(gin.ReleaseMode)
+	var router = gin.Default()
+
+	initializeServerRoutes(serverConfig, router)
+
+	server = &http.Server{
+		Addr:    ":" + strconv.Itoa(int(serverConfig.Port)),
+		Handler: router,
+	}
+
+	go func() {
+		var spaceAndGreen, blue, resetAndSpace = "\n\n\n\033[32m", "\033[34m", "\033[0m\n\n\n"
+
+		log.Printf("%sStarting server on %shttp://localhost:%d%s", spaceAndGreen, blue, serverConfig.Port, resetAndSpace)
+
+		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("Failed to start server: %s", err)
+		}
+	}()
+}
+
+func initializeServerRoutes(serverConfig *entity.ServerConfig, router *gin.Engine) {
+
+	router.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "Welcome to Mock Server By github.com/csarjz")
 	})
 
-	api := app.Group(serverConfig.BaseUrl)
+	var api = router.Group(serverConfig.BaseUrl)
 
 	for i := 0; i < len(serverConfig.Routes); i++ {
 		route := serverConfig.Routes[i]
+		if route.HttpStatus <= http.StatusContinue {
+			route.HttpStatus = http.StatusOK
+		}
 		switch route.Method {
 		case "POST":
-			api.Post(route.Path, func(c *fiber.Ctx) error {
+			api.POST(route.Path, func(c *gin.Context) {
 				delay(route.Delay)
-				httpStatus(route.HttpStatus, c)
-				return processResponse(route.ResponseFile, c)
+				processResponse(route.HttpStatus, route.ResponseFile, c)
 			})
 		case "PUT":
-			api.Put(route.Path, func(c *fiber.Ctx) error {
+			api.PUT(route.Path, func(c *gin.Context) {
 				delay(route.Delay)
-				httpStatus(route.HttpStatus, c)
-				return processResponse(route.ResponseFile, c)
+				processResponse(route.HttpStatus, route.ResponseFile, c)
 			})
 		case "DELETE":
-			api.Delete(route.Path, func(c *fiber.Ctx) error {
+			api.DELETE(route.Path, func(c *gin.Context) {
 				delay(route.Delay)
-				httpStatus(route.HttpStatus, c)
-				return processResponse(route.ResponseFile, c)
+				processResponse(route.HttpStatus, route.ResponseFile, c)
 			})
 		default:
-			api.Get(route.Path, func(c *fiber.Ctx) error {
+			api.GET(route.Path, func(c *gin.Context) {
 				delay(route.Delay)
-				httpStatus(route.HttpStatus, c)
-				return processResponse(route.ResponseFile, c)
+				processResponse(route.HttpStatus, route.ResponseFile, c)
 			})
 		}
 	}
-}
-
-func processResponse(filePath string, c *fiber.Ctx) error {
-	jsonFile, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		c.Response().Header.SetStatusCode(fiber.StatusBadRequest)
-		return c.JSON(entity.ErrorResponse{
-			Message: "JSON File Not Found",
-		})
-	}
-	c.Response().Header.SetContentType(fiber.MIMEApplicationJSONCharsetUTF8)
-	return c.Send(jsonFile)
 }
 
 func delay(delay uint32) {
@@ -89,8 +112,18 @@ func delay(delay uint32) {
 	}
 }
 
-func httpStatus(status uint32, c *fiber.Ctx) {
-	if status > 0 {
-		c.Status(int(status))
+func processResponse(httpStatus uint32, responseFilePath string, c *gin.Context) {
+	var jsonFile, err = os.Open(responseFilePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: "JSON File Not Found"})
+	}
+	defer jsonFile.Close()
+
+	c.Header("Content-Type", "application/json")
+	c.Status(int(httpStatus))
+	_, err = io.Copy(c.Writer, jsonFile)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, entity.ErrorResponse{Message: "JSON File Not Found"})
 	}
 }
