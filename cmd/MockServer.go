@@ -13,6 +13,7 @@ import (
 	"github.com/csarjz/mockserver/cmd/entity"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 )
 
 var server *http.Server
@@ -50,6 +51,7 @@ func decodeServerConfigFile(fileName string) (*entity.ServerConfig, error) {
 func startServer(serverConfig *entity.ServerConfig) {
 	gin.SetMode(gin.ReleaseMode)
 	var router = gin.Default()
+	router.Use(cors.Default())
 
 	initializeServerRoutes(serverConfig, router)
 
